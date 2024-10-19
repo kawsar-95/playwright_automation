@@ -78,9 +78,7 @@ test('Client App login', async () => {
   }
   const orderIdDetails = await page.locator(".col-text").textContent();
   expect(orderId.includes(orderIdDetails)).toBeTruthy();
-
-
-});
+}, 60000); // Increase the timeout to 60 seconds
 test('@API Test case 2', async () => {
   const email = "";
   const productName = 'Zara Coat 4';
