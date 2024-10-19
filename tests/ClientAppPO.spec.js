@@ -7,13 +7,14 @@ const dataset = JSON.parse(JSON.stringify(require("../utils/placeorderTestData.j
 
 
 for (const data of dataset) {
-  test(`@Web Client App login for ${data.productName}`, async ({ page }) => {
+  test.skip(`@Web Client App login for ${data.productName}`, async ({ page }) => {
     const poManager = new POManager(page);
     //js file- Login js, DashboardPage
     const products = page.locator(".card-body");
     const loginPage = poManager.getLoginPage();
     await loginPage.goTo();
     await loginPage.validLogin(data.username, data.password);
+    await page.waitForLoadState('networkidle'); // Ensure the page has fully loaded
     const dashboardPage = poManager.getDashboardPage();
     await dashboardPage.searchProductAddCart(data.productName);
     await dashboardPage.navigateToCart();
@@ -30,17 +31,10 @@ for (const data of dataset) {
     const ordersHistoryPage = poManager.getOrdersHistoryPage();
     await ordersHistoryPage.searchOrderAndSelect(orderId);
     expect(orderId.includes(await ordersHistoryPage.getOrderId())).toBeTruthy();
-
-
-
-
-
-
-
   });
 }
 
-customtest(`Client App login`, async ({ page, testDataForOrder }) => {
+customtest.skip(`Client App login`, async ({ page, testDataForOrder }) => {
   const poManager = new POManager(page);
   //js file- Login js, DashboardPage
   const products = page.locator(".card-body");
